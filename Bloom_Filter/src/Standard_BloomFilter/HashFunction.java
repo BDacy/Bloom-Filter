@@ -1,3 +1,5 @@
+package Standard_BloomFilter;
+
 /**
  * @BelongsPackage: PACKAGE_NAME
  * @Author: yca

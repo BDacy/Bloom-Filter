@@ -1,3 +1,7 @@
+package Standard_BloomFilter;
+
+import Interface.BloomFilter;
+
 import java.util.BitSet;
 
 /**
@@ -7,7 +11,7 @@ import java.util.BitSet;
  * @Description:
  *      布隆过滤器
  */
-public class BloomFilter {
+public class BF<T> implements BloomFilter<T> {
     // bloomFilter 的位图大小
     private static final int Default_BitSize = 100000;
 
@@ -20,7 +24,17 @@ public class BloomFilter {
     // 哈希函数组
     private final HashFunction[] hashFunctions;
 
-    public BloomFilter(HashFunction[] hashFunctions) {
+    public BF(HashFunction[] hashFunctions) {
         this.hashFunctions = hashFunctions;
+    }
+
+    @Override
+    public boolean add(T data) {
+        return false;
+    }
+
+    @Override
+    public boolean contain(T data) {
+        return false;
     }
 }
