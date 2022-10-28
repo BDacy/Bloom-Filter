@@ -4,7 +4,6 @@ import com.BDacy.Interfaces.BloomFilter;
 
 import java.util.BitSet;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @BelongsPackage: com.BDacy.Standard_BloomFilter
@@ -24,9 +23,9 @@ public class BF<T> implements BloomFilter<T> {
     private static BitSet bitSet;
 
     // 哈希函数组
-    private final HashFunction[] hashFunctions;
+    private final HashFunctionMD5[] hashFunctions;
 
-    public BF(HashFunction[] hashFunctions) {
+    public BF(HashFunctionMD5[] hashFunctions) {
         this.hashFunctions = hashFunctions;
     }
 
