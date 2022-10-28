@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 /**
  * @BelongsPackage: Standard_BloomFilter
@@ -68,6 +69,31 @@ public class HashFunctionMD5<T> implements HashFunction {
     // TODO 实现hash算法
     @Override
     public int[] createHashes(byte[] data, int k) {
-        return new int[0];
+        int[] result = new int[k];
+        int timeCnt = 0;//计数使用了hash函数多少次
+        byte salt = 3;//加盐
+
+        while (timeCnt < k){
+            MD.update(salt);//加盐
+            salt++;
+            //生成MD5hash加密后的byte数组
+            byte[] digest = MD.digest(data);
+            //对数组进行操作
+            //四个byte进行一次整合，计算一次hash函数作为一次hash输出
+            for (int i = 0; i < digest.length/4 && timeCnt < k; i++) {
+                int h = 0;
+                for (int j = (i*4); j < (i*4)+4; j++) {
+                    h <<= 8;
+                    h |= ((int) digest[j]) & 0xFF;
+                }
+                result[timeCnt] = h;
+                timeCnt++;
+            }
+        }
+        return result;
+    }
+
+    public int getK() {
+        return k;
     }
 }

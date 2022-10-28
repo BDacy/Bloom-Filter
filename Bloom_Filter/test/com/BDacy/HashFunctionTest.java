@@ -1,5 +1,7 @@
 package com.BDacy;
 
+import com.BDacy.Standard_BloomFilter.HashFunctionMD5;
+import org.junit.Assert.*;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
@@ -74,5 +76,10 @@ public class HashFunctionTest {
 //        }
         System.out.println(sb.toString());
         System.out.println(Arrays.toString(result));
+    }
+    @Test
+    public void MD5HashFunctionTest() throws NoSuchAlgorithmException {
+        HashFunctionMD5<String> hashFunctionMD5 = new HashFunctionMD5<>();
+        assert hashFunctionMD5.getK() == 5;
     }
 }
