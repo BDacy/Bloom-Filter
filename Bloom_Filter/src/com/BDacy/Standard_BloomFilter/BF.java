@@ -1,11 +1,13 @@
-package Standard_BloomFilter;
+package com.BDacy.Standard_BloomFilter;
 
-import Interface.BloomFilter;
+import com.BDacy.Interfaces.BloomFilter;
 
 import java.util.BitSet;
+import java.util.Collection;
+import java.util.List;
 
 /**
- * @BelongsPackage: PACKAGE_NAME
+ * @BelongsPackage: com.BDacy.Standard_BloomFilter
  * @Author: yca
  * @CreateTime: 2022-10-24  22:55
  * @Description:
@@ -34,7 +36,23 @@ public class BF<T> implements BloomFilter<T> {
     }
 
     @Override
-    public boolean contain(T data) {
+    public boolean addAll(Collection<? extends T> dataSet) {
         return false;
+    }
+
+
+    @Override
+    public boolean contains(T data) {
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<? extends T> dataSet) {
+        return false;
+    }
+
+    @Override
+    public void clean() {
+
     }
 }

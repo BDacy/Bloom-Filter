@@ -1,7 +1,7 @@
-package Standard_BloomFilter;
+package com.BDacy.Standard_BloomFilter;
 
 /**
- * @BelongsPackage: PACKAGE_NAME
+ * @BelongsPackage: Standard_BloomFilter
  * @Author: yca
  * @CreateTime: 2022-10-24  22:53
  * @Description:
