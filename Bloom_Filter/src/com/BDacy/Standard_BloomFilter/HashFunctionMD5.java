@@ -46,15 +46,15 @@ public class HashFunctionMD5<T> implements HashFunction {
         return createHashes(data,1)[0];
     }
 
-    /**
-     * 对String类型数据的hash操作
-     * @param data - String类型数据输入
-     * @param k - hash的次数
-     * @return int[] - 返回数组大小为k的hash值数组
-     */
-    public int[] createHashes(String data, int k){
-        return createHashes(data.getBytes(charset),k);
-    }
+//    /**
+//     * 对String类型数据的hash操作
+//     * @param data - String类型数据输入
+//     * @param k - hash的次数
+//     * @return int[] - 返回数组大小为k的hash值数组
+//     */
+//    public int[] createHashes(String data, int k){
+//        return createHashes(data.getBytes(charset),k);
+//    }
 
     /**
      *
@@ -66,7 +66,7 @@ public class HashFunctionMD5<T> implements HashFunction {
         return createHashes(data.toString().getBytes(charset),k);
     }
 
-    // TODO 实现hash算法
+    // 实现hash算法
     @Override
     public int[] createHashes(byte[] data, int k) {
         int[] result = new int[k];
@@ -91,6 +91,10 @@ public class HashFunctionMD5<T> implements HashFunction {
             }
         }
         return result;
+    }
+
+    public int[] createHashes(T data) {
+        return createHashes(data.toString().getBytes(charset),k);
     }
 
     public int getK() {
