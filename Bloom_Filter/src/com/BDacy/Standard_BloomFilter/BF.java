@@ -48,7 +48,7 @@ public class BF<T> implements BloomFilter<T> {
             return false;
         }
         for (int i = 0; i < hashes.length; i++) {
-            bitSet.set(hashes[i] % bitSetSize);
+            bitSet.set(Math.abs(hashes[i] % bitSetSize));
         }
         numAdded++;
         return true;
@@ -67,7 +67,7 @@ public class BF<T> implements BloomFilter<T> {
     public boolean contains(T data) {
         int[] hashes = hashFunctions.createHashes(data);
         for (int i = 0; i < hashes.length; i++) {
-            if (!bitSet.get(hashes[i] % bitSetSize))return false;
+            if (!bitSet.get(Math.abs(hashes[i] % bitSetSize)))return false;
         }
         return true;
     }
@@ -96,5 +96,25 @@ public class BF<T> implements BloomFilter<T> {
             throw new NoSuchAlgorithmException("please setK after cleaning your bloomFilter");
         this.k = k;
         this.hashFunctions = new HashFunctionMD5<T>(k);
+    }
+
+    public int getDefault_BitSize() {
+        return Default_BitSize;
+    }
+
+    public BitSet getBitSet() {
+        return (BitSet) bitSet.clone();
+    }
+
+    public int getBitSetSize() {
+        return bitSetSize;
+    }
+
+    public int getK() {
+        return k;
+    }
+
+    public int getNumAdded() {
+        return numAdded;
     }
 }
