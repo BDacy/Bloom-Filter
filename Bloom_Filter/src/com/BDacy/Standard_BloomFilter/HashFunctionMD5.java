@@ -26,6 +26,7 @@ public class HashFunctionMD5<T> implements HashFunction {
 
 
     public HashFunctionMD5(int k) throws NoSuchAlgorithmException {
+        if (k <= 0)throw new IllegalArgumentException("k should > 0");
         this.k = k;
         // 使用的hash算法名称
         String hashName = "MD5";
@@ -69,6 +70,7 @@ public class HashFunctionMD5<T> implements HashFunction {
     // 实现hash算法
     @Override
     public int[] createHashes(byte[] data, int k) {
+        if (k <= 0)throw new IllegalArgumentException("k should > 0");
         int[] result = new int[k];
         int timeCnt = 0;//计数使用了hash函数多少次
         byte salt = 3;//加盐

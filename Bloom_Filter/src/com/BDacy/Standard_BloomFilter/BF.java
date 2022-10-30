@@ -15,17 +15,17 @@ import java.util.Collection;
  */
 public class BF<T> implements BloomFilter<T> {
     // bloomFilter 的位图大小
-    private final int Default_BitSize = 100000;
+    protected final int Default_BitSize = 100000;
     // 使用BitSet数据结构来当作过滤器的位图
-    private final BitSet bitSet;
+    protected final BitSet bitSet;
     // 位图的大小
-    private int bitSetSize;
+    protected int bitSetSize;
     // hash函数的个数
-    private int k;
+    protected int k;
     // 已经添加进Bloom Filter的元素个数(包括重复添加的，因为有不确定性)
-    private int numAdded = 0;
-    // 哈希函数组
-    private HashFunctionMD5<T> hashFunctions;
+    protected int numAdded = 0;
+    // 哈希函数
+    protected HashFunctionMD5<T> hashFunctions;
 
     public BF() throws NoSuchAlgorithmException {
         this.hashFunctions = new HashFunctionMD5<T>();
@@ -35,6 +35,7 @@ public class BF<T> implements BloomFilter<T> {
     }
 
     public BF(int bitSetSize, int k) throws NoSuchAlgorithmException {
+        if (k <= 0)throw new IllegalArgumentException("k should > 0");
         this.bitSetSize = bitSetSize;
         this.bitSet = new BitSet(bitSetSize);
         this.k = k;
@@ -42,6 +43,7 @@ public class BF<T> implements BloomFilter<T> {
     }
 
     public BF(int k) throws NoSuchAlgorithmException {
+        if (k <= 0)throw new IllegalArgumentException("k should > 0");
         this.bitSetSize = Default_BitSize;
         this.bitSet = new BitSet(bitSetSize);
         this.k = k;
@@ -101,6 +103,7 @@ public class BF<T> implements BloomFilter<T> {
     public void setK(int k) throws NoSuchAlgorithmException {
         if (numAdded != 0)
             throw new NoSuchAlgorithmException("please setK after cleaning your bloomFilter");
+        if (k <= 0)throw new IllegalArgumentException("k should > 0");
         this.k = k;
         this.hashFunctions = new HashFunctionMD5<T>(k);
     }

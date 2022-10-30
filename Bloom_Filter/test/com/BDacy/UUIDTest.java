@@ -1,7 +1,10 @@
 package com.BDacy;
 
 import org.junit.Test;
+import static org.junit.Assert.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -19,5 +22,15 @@ public class UUIDTest {
         System.out.println(UUID.randomUUID().toString());
         System.out.println(UUID.randomUUID().toString().replace("-",""));
         System.out.println(UUID.randomUUID().version());
+    }
+
+    @Test
+    public void UUIDUniqueTest(){
+        Set<String> set = new HashSet<>(2 << 18);
+        assertEquals(0, set.size());
+        for (int i = 0; i < 2 << 18; i++) {
+            set.add(UUID.randomUUID().toString());
+        }
+        assertEquals(2 << 18,set.size());
     }
 }
