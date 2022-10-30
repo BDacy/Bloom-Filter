@@ -41,6 +41,13 @@ public class BF<T> implements BloomFilter<T> {
         this.hashFunctions = new HashFunctionMD5<T>(k);
     }
 
+    public BF(int k) throws NoSuchAlgorithmException {
+        this.bitSetSize = Default_BitSize;
+        this.bitSet = new BitSet(bitSetSize);
+        this.k = k;
+        this.hashFunctions = new HashFunctionMD5<T>(k);
+    }
+
     @Override
     public boolean add(T data) {
         int[] hashes = hashFunctions.createHashes(data);
@@ -116,5 +123,13 @@ public class BF<T> implements BloomFilter<T> {
 
     public int getNumAdded() {
         return numAdded;
+    }
+
+    /**
+     * 计算误判率
+     * @return FPR
+     */
+    public double getFalsePositiveRate() {
+        return Math.pow(1 - Math.pow(1 - (1.0 / (long)bitSetSize), k * numAdded), k);
     }
 }

@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 /**
  * @BelongsPackage: com.BDacy
@@ -38,5 +39,39 @@ public class Standard_BFTest {
         assertTrue(bf.contains(input2));
         assertTrue(bf.contains(input3));
         assertFalse(bf.contains("2020-10-10"));
+
+        int cnt = 0;
+        BF<Integer> bf1 = new BF<>(7);
+        for (int i = 0; i < 10000; i++) {
+            bf1.add(100000 + i);
+        }
+        for (int i = 0; i < 10000; i++) {
+            assertTrue(bf1.contains(100000 + i));
+        }
+        for (int i = 0; i < 20000; i++) {
+            if (bf1.contains(200000 + i))cnt++;
+        }
+        double pow = bf1.getFalsePositiveRate();
+        System.out.println(pow);
+        System.out.println(20000 * pow);
+        System.out.println(cnt);
+        assertTrue(cnt <= 20000 * pow);
+    }
+    
+    @Test
+    public void BFAddAndContainsUUIDTest() throws Exception {
+        System.out.println("使用UUID工具类生成唯一ID对BF进行测试");
+        BF<String> bf = new BF<>(2<<24,7);
+        for (int i = 0; i < 3000000; i++) {
+            bf.add(UUID.randomUUID().toString());
+        }
+        int cnt = 0;
+        for (int i = 0; i < 3000000; i++) {
+            if (bf.contains(UUID.randomUUID().toString()))cnt++;
+        }
+        System.out.println(cnt);
+        System.out.println(1.0 * cnt / 3000);
+        System.out.println(bf.getFalsePositiveRate() * 3000);
+        assertTrue(1.0 * cnt / 3000 <= bf.getFalsePositiveRate() * 3000);
     }
 }
