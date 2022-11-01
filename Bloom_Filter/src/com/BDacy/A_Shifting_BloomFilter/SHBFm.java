@@ -26,6 +26,10 @@ public class SHBFm<T> extends BF<T> {
         super(k);
     }
 
+    public SHBFm(int bitSetSize, int expectedNumberOfFilterElements, int k) throws NoSuchAlgorithmException {
+        super(bitSetSize, expectedNumberOfFilterElements, k);
+    }
+
     @Override
     public boolean add(T data) {
         int[] hashes = hashFunctions.createHashes(data,k==1?1:k/2);
@@ -56,5 +60,23 @@ public class SHBFm<T> extends BF<T> {
      */
     public int shifting_o(int hashedNum){
         return hashedNum % (w - 1) + 1;
+    }
+
+
+    @Override
+    public double getFalsePositiveRate(int numOfElements) {
+        double p = Math.pow(Math.E,- 1. * numOfElements * k / bitSetSize);
+        return Math.pow(1 - p,k / 2.0) *
+                Math.pow(1 - p + 1. / (w - 1) * p * p, k / 2.);
+    }
+
+    /**
+     * 静态方法，计算一个较为优化的hash函数的个数
+     * @param m size of a Bloom Filter
+     * @param n of elements of a Bloom Filter
+     * @return 推荐的hash函数个数
+     */
+    public static int getOptimumValueOfK(int m,int n){
+        return (int) Math.round(0.7009 * m / n);
     }
 }

@@ -26,30 +26,51 @@ public class BF<T> implements BloomFilter<T> {
     protected int numAdded = 0;
     // 哈希函数
     protected HashFunctionMD5<T> hashFunctions;
+    // expected (maximum) number of elements to be added
+    // 预期要添加的元素
+    protected int expectedNumberOfFilterElements;//默认为bitSetsize的1/10
 
     public BF() throws NoSuchAlgorithmException {
         this.hashFunctions = new HashFunctionMD5<T>();
         this.bitSet = new BitSet(Default_BitSize);
         this.bitSetSize = Default_BitSize;
         this.k = hashFunctions.getK();
+        this.expectedNumberOfFilterElements = bitSetSize / 10;
     }
 
+    /**
+     *
+     * @param bitSetSize - 位图大小
+     * @param k - hash函数的个数
+     * @throws NoSuchAlgorithmException - you should let k > 0
+     */
     public BF(int bitSetSize, int k) throws NoSuchAlgorithmException {
         if (k <= 0)throw new IllegalArgumentException("k should > 0");
         this.bitSetSize = bitSetSize;
         this.bitSet = new BitSet(bitSetSize);
         this.k = k;
         this.hashFunctions = new HashFunctionMD5<T>(k);
+        this.expectedNumberOfFilterElements = this.bitSetSize / 10;
     }
 
+    /**
+     *
+     * @param k - hash函数个数
+     * @throws NoSuchAlgorithmException - you should let k > 0
+     */
     public BF(int k) throws NoSuchAlgorithmException {
         if (k <= 0)throw new IllegalArgumentException("k should > 0");
         this.bitSetSize = Default_BitSize;
         this.bitSet = new BitSet(bitSetSize);
         this.k = k;
         this.hashFunctions = new HashFunctionMD5<T>(k);
+        this.expectedNumberOfFilterElements = bitSetSize / 10;
     }
 
+    public BF(int bitSetSize,int expectedNumberOfFilterElements,int k) throws NoSuchAlgorithmException {
+        this(bitSetSize,k);
+        this.expectedNumberOfFilterElements = expectedNumberOfFilterElements;
+    }
     @Override
     public boolean add(T data) {
         int[] hashes = hashFunctions.createHashes(data);
@@ -129,10 +150,27 @@ public class BF<T> implements BloomFilter<T> {
     }
 
     /**
-     * 计算误判率
+     * 根据当前Filter已添加的元素数量计算误判率
      * @return FPR
      */
     public double getFalsePositiveRate() {
-        return Math.pow(1 - Math.pow(1 - (1.0 / (long)bitSetSize), k * numAdded), k);
+        return getFalsePositiveRate(this.numAdded);
+    }
+
+    /**
+     *  根据输入当作已添加数量计算误判率
+     * @param numOfElements - 输入数量
+     * @return FPR
+     */
+    public double getFalsePositiveRate(int numOfElements) {
+        return Math.pow(1 - Math.pow(1 - (1.0 / (long)bitSetSize), k * numOfElements), k);
+    }
+
+    /**
+     * 根据 expectedNumberOfFilterElements 计算误判率
+     * @return FPR
+     */
+    public double getExpectedFalsePositiveRate(){
+        return getFalsePositiveRate(expectedNumberOfFilterElements);
     }
 }
