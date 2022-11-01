@@ -173,4 +173,12 @@ public class BF<T> implements BloomFilter<T> {
     public double getExpectedFalsePositiveRate(){
         return getFalsePositiveRate(expectedNumberOfFilterElements);
     }
+
+    public int getExpectedNumberOfFilterElements() {
+        return expectedNumberOfFilterElements;
+    }
+
+    public void setExpectedNumberOfFilterElements(int expectedNumberOfFilterElements) {
+        this.expectedNumberOfFilterElements = expectedNumberOfFilterElements;
+    }
 }

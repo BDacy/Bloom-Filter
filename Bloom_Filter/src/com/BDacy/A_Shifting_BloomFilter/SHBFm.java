@@ -32,8 +32,9 @@ public class SHBFm<T> extends BF<T> {
 
     @Override
     public boolean add(T data) {
-        int[] hashes = hashFunctions.createHashes(data,k==1?1:k/2);
-        if (hashes.length != (k==1?1:k/2))return false;
+//        int[] hashes = hashFunctions.createHashes(data,k==1?1:k/2);
+        int[] hashes = hashFunctions.createHashes(data,k/2+1);
+        if (hashes.length != k/2+1)return false;
         for (int i = 0; i < hashes.length; i++) {
             bitSet.set(Math.abs(hashes[i] % bitSetSize));
             bitSet.set(Math.abs(hashes[i] % bitSetSize) + shifting_o(hashes[i]));
@@ -44,11 +45,11 @@ public class SHBFm<T> extends BF<T> {
 
     @Override
     public boolean contains(T data) {
-        int[] hashes = hashFunctions.createHashes(data,k==1?1:k/2);
+        int[] hashes = hashFunctions.createHashes(data,k/2+1);
         for (int i = 0; i < hashes.length; i++) {
             boolean b0 = bitSet.get(Math.abs(hashes[i] % bitSetSize));
             boolean b1 = bitSet.get(Math.abs(hashes[i] % bitSetSize) + shifting_o(hashes[i]));
-            if (!(b0|b1))return false;
+            if (!b0 ||!b1)return false;
         }
         return true;
     }
@@ -59,7 +60,7 @@ public class SHBFm<T> extends BF<T> {
      * @return - int 偏移量
      */
     public int shifting_o(int hashedNum){
-        return hashedNum % (w - 1) + 1;
+        return Math.abs(hashedNum) % (w - 1) + 1;
     }
 
 
