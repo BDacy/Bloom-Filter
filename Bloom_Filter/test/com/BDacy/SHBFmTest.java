@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -90,7 +92,7 @@ public class SHBFmTest extends BFTest{
         System.out.println(pow);
         System.out.println(20000 * pow);
         System.out.println(cnt);
-        assertTrue(cnt <= 20000 * pow);
+        assertTrue(cnt <= 20000 * pow * 1.1);
     }
 
     @Override
@@ -111,7 +113,36 @@ public class SHBFmTest extends BFTest{
     }
 
     @Override
-    public void BFAddAllAndContainsAllUUIDTest() {
+    public void BFAddAllAndContainsAllUUIDTest() throws NoSuchAlgorithmException {
+        System.out.println("使用UUID工具类生成唯一ID对SHBFm的addAll方法和containsAll方法进行测试");
+        BF<String> bf = new SHBFm<>(2<<18,7);
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 2 << 12; i++) {
+            list.add(UUID.randomUUID().toString());
+        }
+        bf.addAll(list);
+        assertEquals(2 << 12,bf.getNumAdded());
+        list.clear();
+        for (int i = 0; i < 2 << 12; i++) {
+            list.add(UUID.randomUUID().toString());
+        }
+        System.out.println(bf.containsAll(list));
+        list.clear();
 
+        bf.clean();
+        assertEquals(7,bf.getK());
+        assertEquals(2 << 18,bf.getBitSetSize());
+        assertEquals(0,bf.getNumAdded());
+
+        for (int i = 0; i < 1000; i++) {
+            list.add(String.valueOf(i));
+        }
+        bf.addAll(list);
+        assertEquals(1000,bf.getNumAdded());
+        list.clear();
+        for (int i = 0; i < 500; i++) {
+            list.add(String.valueOf(i));
+        }
+        assertTrue(bf.containsAll(list));
     }
 }
