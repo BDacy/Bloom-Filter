@@ -31,7 +31,7 @@ public class BF<T> implements BloomFilter<T> {
     protected int expectedNumberOfFilterElements;//默认为bitSetsize的1/10
 
     public BF() throws NoSuchAlgorithmException {
-        this.hashFunctions = new HashFunctionMD5<T>();
+        this.hashFunctions = new HashFunctionMD5<>();
         this.bitSet = new BitSet(Default_BitSize);
         this.bitSetSize = Default_BitSize;
         this.k = hashFunctions.getK();
@@ -49,7 +49,7 @@ public class BF<T> implements BloomFilter<T> {
         this.bitSetSize = bitSetSize;
         this.bitSet = new BitSet(bitSetSize);
         this.k = k;
-        this.hashFunctions = new HashFunctionMD5<T>(k);
+        this.hashFunctions = new HashFunctionMD5<>(k);
         this.expectedNumberOfFilterElements = this.bitSetSize / 10;
     }
 
@@ -63,7 +63,7 @@ public class BF<T> implements BloomFilter<T> {
         this.bitSetSize = Default_BitSize;
         this.bitSet = new BitSet(bitSetSize);
         this.k = k;
-        this.hashFunctions = new HashFunctionMD5<T>(k);
+        this.hashFunctions = new HashFunctionMD5<>(k);
         this.expectedNumberOfFilterElements = bitSetSize / 10;
     }
 
@@ -119,14 +119,14 @@ public class BF<T> implements BloomFilter<T> {
     /**
      * 重新设置BloomFilter的hash函数的个数，但前提是BloomFilter是初始状态
      * @param k - hash函数的个数
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException -
      */
     public void setK(int k) throws NoSuchAlgorithmException {
         if (numAdded != 0)
             throw new NoSuchAlgorithmException("please setK after cleaning your bloomFilter");
         if (k <= 0)throw new IllegalArgumentException("k should > 0");
         this.k = k;
-        this.hashFunctions = new HashFunctionMD5<T>(k);
+        this.hashFunctions = new HashFunctionMD5<>(k);
     }
 
     public int getDefault_BitSize() {

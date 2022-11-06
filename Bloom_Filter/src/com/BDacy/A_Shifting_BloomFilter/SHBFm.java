@@ -3,7 +3,6 @@ package com.BDacy.A_Shifting_BloomFilter;
 import com.BDacy.Standard_BloomFilter.BF;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
 
 /**
  * @BelongsPackage: com.BDacy.A_Shifting_BloomFilter

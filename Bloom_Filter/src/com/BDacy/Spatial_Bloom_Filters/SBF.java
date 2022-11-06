@@ -3,7 +3,7 @@ package com.BDacy.Spatial_Bloom_Filters;
 import com.BDacy.Standard_BloomFilter.HashFunctionMD5;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * @BelongsPackage: com.BDacy.Spatial_Bloom_Filters
@@ -164,7 +164,7 @@ public class SBF<T> {
     public double getSBFFalsePositiveRate(){
         double p;
         int sum = 0;
-        for (int i = area_nums; i > 0 ; i++) {
+        for (int i = area_nums; i > 0 ; i--) {
             sum += area_members[i];
         }
         p = Math.pow(1 - 1. / size,sum * hash_number);
@@ -238,7 +238,17 @@ public class SBF<T> {
      * 打印输出该filter的相关参数
      */
     public void printFilter(){
-
+        System.out.println("SBF{" +
+                "\n  area_nums=" + area_nums +
+                ",\n area_members=" + Arrays.toString(area_members) +
+                ",\n members=" + members +
+                ",\n size=" + size +
+                ",\n hash_number=" + hash_number +
+                ",\n hashFunctionMD5=" + hashFunctionMD5 +
+                ",\n collisions=" + collisions +
+                ",\n area_self_collisions=" + Arrays.toString(area_self_collisions) +
+                ",\n area_cells=" + Arrays.toString(area_cells) +
+                "\n}");
     }
 
 }
