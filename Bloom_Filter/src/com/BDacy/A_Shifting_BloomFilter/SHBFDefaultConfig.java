@@ -7,6 +7,6 @@ package com.BDacy.A_Shifting_BloomFilter;
  * @Description:
  */
 public class SHBFDefaultConfig {
-    static int DEFAULT_hash_number = 5;
-    static int DEFAULT_size = 1000000;
+    public static int DEFAULT_hash_number = 5;
+    public static int DEFAULT_size = 1000000;
 }

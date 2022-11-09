@@ -110,7 +110,7 @@ public class SHBFA<T> {
      * @return ElementBelong - 返回枚举类，输入数据的归属关系，有误判性，但是概率较小
      */
     public ElementBelong query(T data){
-        int[] hashes = hashFunctionMD5.createHashes(data, k);
+        int[] hashes = hashFunctionMD5.createHashes(data, k + 2);
         int offset1 = shifting_o(1,hashes);
         int offset2 = shifting_o(2,hashes);
         boolean flag0 = true; //S1 - S2
