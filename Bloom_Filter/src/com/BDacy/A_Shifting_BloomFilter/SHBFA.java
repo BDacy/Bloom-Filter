@@ -133,11 +133,11 @@ public class SHBFA<T> {
     }
 
     /**
-     * 计算出现概率
+     * 计算得到答案的确定性概率
      * @param eb - 枚举类型 输入从属关系
-     * @return double - 出现概率
+     * @return double - 确定性概率
      */
-    public double getAppearProbability(ElementBelong eb){
+    public double getClearProbability(ElementBelong eb){
         if (eb == ElementBelong.S1_diff_S2
                 || eb == ElementBelong.S1_and_S2
                 || eb == ElementBelong.S2_diff_S1)

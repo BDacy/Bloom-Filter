@@ -120,16 +120,16 @@ public class SHBFATest {
         for (int i = 0; i < 400; i++) set1.add(UUID.randomUUID().toString());
         SHBFA<String> bf = new SHBFA<>(set1,set2,10000,5);
 
-        System.out.println(bf.getAppearProbability(S1_diff_S2));
-        System.out.println(bf.getAppearProbability(S1_and_S2));
-        System.out.println(bf.getAppearProbability(S2_diff_S1));
+        System.out.println(bf.getClearProbability(S1_diff_S2));
+        System.out.println(bf.getClearProbability(S1_and_S2));
+        System.out.println(bf.getClearProbability(S2_diff_S1));
 
-        System.out.println(bf.getAppearProbability(UnSureS1_S2));
-        System.out.println(bf.getAppearProbability(S1_diff_S2_or_S2_diff_S1));
-        System.out.println(bf.getAppearProbability(S1_UnSureS2));
+        System.out.println(bf.getClearProbability(UnSureS1_S2));
+        System.out.println(bf.getClearProbability(S1_diff_S2_or_S2_diff_S1));
+        System.out.println(bf.getClearProbability(S1_UnSureS2));
 
-        System.out.println(bf.getAppearProbability(S1_or_S2));
-        System.out.println(bf.getAppearProbability(Not_S1_or_S2));
+        System.out.println(bf.getClearProbability(S1_or_S2));
+        System.out.println(bf.getClearProbability(Not_S1_or_S2));
     }
 
     @Test
