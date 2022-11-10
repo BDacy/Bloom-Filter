@@ -1,6 +1,7 @@
-package com.BDacy;
+package com.BDacy.A_Shifting_BloomFilter;
 
 import com.BDacy.A_Shifting_BloomFilter.SHBFm;
+import com.BDacy.BFTest;
 import com.BDacy.Standard_BloomFilter.BF;
 import static org.junit.Assert.*;
 
@@ -16,7 +17,7 @@ import java.util.UUID;
  * @Description:
  *      SHBFm的测试
  */
-public class SHBFmTest extends BFTest{
+public class SHBFmTest extends BFTest {
 
     @Override
     public void BFDefaultTest() throws NoSuchAlgorithmException {

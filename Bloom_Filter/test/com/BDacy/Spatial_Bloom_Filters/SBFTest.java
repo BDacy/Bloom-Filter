@@ -1,4 +1,4 @@
-package com.BDacy;
+package com.BDacy.Spatial_Bloom_Filters;
 
 import com.BDacy.Spatial_Bloom_Filters.SBF;
 import org.junit.Test;

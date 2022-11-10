@@ -1,4 +1,4 @@
-package com.BDacy;
+package com.BDacy.A_Shifting_BloomFilter;
 
 import com.BDacy.A_Shifting_BloomFilter.SHBFX;
 import org.junit.Test;

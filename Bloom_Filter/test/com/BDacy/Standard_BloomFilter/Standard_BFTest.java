@@ -1,4 +1,4 @@
-package com.BDacy;
+package com.BDacy.Standard_BloomFilter;
 
 import com.BDacy.Standard_BloomFilter.BF;
 import org.junit.Test;
