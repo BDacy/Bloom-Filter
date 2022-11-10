@@ -104,21 +104,39 @@ public class SHBFX<T> {
                     break;
                 }
             }
-            if (flag)max_ans = i;
+            if (flag)max_ans = i + 1;
         }
         return max_ans;
     }
 
+
+    /**
+     * 当判断输入元素不属于SHBFX中的元素时的正确率
+     * @return double CR
+     */
     public double getNotBelongEleCR(){
-        return 0;
+        return Math.pow(1 - getAppearProbability(), c);
     }
 
-    public double getBelongEleCR(){
-        return 0;
+    /**
+     * 当判断输入元素属于SHBFX中的元素时,且判断出现为j次的正确率
+     * @param j should > 0 and <= c
+     * @return double CR 输入数据不合法返回 -1
+     */
+    public double getBelongEleCR(int j){
+        if (j <= 0 || j > c)return -1;
+        return Math.pow(1 - getAppearProbability(), j - 1);
     }
 
+    /**
+     *  The probability that an element is reported
+     * to be present j times
+     * @return double AP
+     */
     public double getAppearProbability(){
-        return 0;
+        return Math.pow(1 -
+                Math.pow(Math.E,
+                        -1. * k * numAdded / bitSetSize),k);
     }
 
     public int getBitSetSize() {
