@@ -1,13 +1,13 @@
 package com.BDacy.A_Shifting_BloomFilter;
 
+import com.BDacy.Standard_BloomFilter.BitArray;
 import com.BDacy.Standard_BloomFilter.HashFunctionMD5;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.BDacy.A_Shifting_BloomFilter.SHBFDefaultConfig.*;
+import static com.BDacy.Standard_BloomFilter.BFDefaultConfig.*;
 
 /**
  * @BelongsPackage: com.BDacy.A_Shifting_BloomFilter
@@ -18,34 +18,34 @@ import static com.BDacy.A_Shifting_BloomFilter.SHBFDefaultConfig.*;
  */
 public class SHBFX<T> {
     // 位图
-    private final BitSet bitSet;
+    private final BitArray bitSet;
     // 位图大小
-    private final int bitSetSize;
+    private final long bitSetSize;
     // hash函数的数量
     private final int k;
     // 提供计算hash函数值的对象
     private final HashFunctionMD5<T> hashFunctionMD5;
     // 已添加的不同元素数量
-    private int numAdded = 0;
+    private long numAdded = 0;
     // 单元素的最大计数
     private final int c;
     // 预期添加的元素数量(唯一种类元素)
-    private final int expectedNumberOfFilterElements;
+    private final long expectedNumberOfFilterElements;
     // 存储各个元素的count
     private final Map<T,Integer> map;
 
 
     /**
      * 有参构造函数
-     * @param bitSetSize - int 位图大小
+     * @param bitSetSize - long 位图大小
      * @param k - int hash函数数量
      * @param c - int 每个元素的最大数量
-     * @param expectedNumberOfFilterElements - int 预期添加的不同元素数量
+     * @param expectedNumberOfFilterElements - long 预期添加的不同元素数量
      * @param map - Map<T, Integer> 输入数据
      * @throws NoSuchAlgorithmException
      */
-    public SHBFX(int bitSetSize, int k, int c,
-                 int expectedNumberOfFilterElements,
+    public SHBFX(long bitSetSize, int k, int c,
+                 long expectedNumberOfFilterElements,
                  Map<T, Integer> map) throws NoSuchAlgorithmException {
         this.bitSetSize = bitSetSize;
         this.k = k;
@@ -53,7 +53,7 @@ public class SHBFX<T> {
         this.expectedNumberOfFilterElements = expectedNumberOfFilterElements;
         this.map = map;
 
-        this.bitSet = new BitSet(this.bitSetSize + c);
+        this.bitSet = new BitArray(this.bitSetSize + c);
         this.hashFunctionMD5 = new HashFunctionMD5<>(this.k);
 
         construct(map);
@@ -139,7 +139,7 @@ public class SHBFX<T> {
                         -1. * k * numAdded / bitSetSize),k);
     }
 
-    public int getBitSetSize() {
+    public long getBitSetSize() {
         return bitSetSize;
     }
 
@@ -147,7 +147,7 @@ public class SHBFX<T> {
         return k;
     }
 
-    public int getNumAdded() {
+    public long getNumAdded() {
         return numAdded;
     }
 
@@ -155,7 +155,7 @@ public class SHBFX<T> {
         return c;
     }
 
-    public int getExpectedNumberOfFilterElements() {
+    public long getExpectedNumberOfFilterElements() {
         return expectedNumberOfFilterElements;
     }
 
@@ -163,8 +163,8 @@ public class SHBFX<T> {
         return new HashMap<>(map);
     }
 
-    public BitSet getBitSet() {
-        return (BitSet) bitSet.clone();
+    public BitArray getBitSet() {
+        return (BitArray) bitSet.clone();
     }
 
 }

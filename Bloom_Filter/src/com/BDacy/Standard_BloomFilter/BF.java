@@ -1,9 +1,10 @@
 package com.BDacy.Standard_BloomFilter;
 
+import com.BDacy.A_Shifting_BloomFilter.SHBFm;
 import com.BDacy.Interfaces.BloomFilter;
-
+import static com.BDacy.Standard_BloomFilter.BFDefaultConfig.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.BitSet;
+
 import java.util.Collection;
 
 /**
@@ -14,28 +15,22 @@ import java.util.Collection;
  *      基础布隆过滤器
  */
 public class BF<T> implements BloomFilter<T> {
-    // bloomFilter 的位图大小
-    protected final int Default_BitSize = 100000;
     // 使用BitSet数据结构来当作过滤器的位图
-    protected final BitSet bitSet;
+    protected final BitArray bitSet;
     // 位图的大小
-    protected int bitSetSize;
+    protected long bitSetSize;
     // hash函数的个数
     protected int k;
     // 已经添加进Bloom Filter的元素个数(包括重复添加的，因为有不确定性)
-    protected int numAdded = 0;
+    protected long numAdded = 0;
     // 哈希函数
     protected HashFunctionMD5<T> hashFunctions;
     // expected (maximum) number of elements to be added
     // 预期要添加的元素
-    protected int expectedNumberOfFilterElements;//默认为bitSetsize的1/10
+    protected long expectedNumberOfFilterElements;//默认为bitSetsize的1/10
 
     public BF() throws NoSuchAlgorithmException {
-        this.hashFunctions = new HashFunctionMD5<>();
-        this.bitSet = new BitSet(Default_BitSize);
-        this.bitSetSize = Default_BitSize;
-        this.k = hashFunctions.getK();
-        this.expectedNumberOfFilterElements = bitSetSize / 10;
+        this(DEFAULT_size,DEFAULT_hash_number);
     }
 
     /**
@@ -44,10 +39,12 @@ public class BF<T> implements BloomFilter<T> {
      * @param k - hash函数的个数
      * @throws NoSuchAlgorithmException - you should let k > 0
      */
-    public BF(int bitSetSize, int k) throws NoSuchAlgorithmException {
+    public BF(long bitSetSize, int k) throws NoSuchAlgorithmException {
         if (k <= 0)throw new IllegalArgumentException("k should > 0");
         this.bitSetSize = bitSetSize;
-        this.bitSet = new BitSet(bitSetSize);
+        if (this instanceof SHBFm)
+            this.bitSet = new BitArray(this.bitSetSize + w);
+        else this.bitSet = new BitArray(this.bitSetSize);
         this.k = k;
         this.hashFunctions = new HashFunctionMD5<>(k);
         this.expectedNumberOfFilterElements = this.bitSetSize / 10;
@@ -59,15 +56,10 @@ public class BF<T> implements BloomFilter<T> {
      * @throws NoSuchAlgorithmException - you should let k > 0
      */
     public BF(int k) throws NoSuchAlgorithmException {
-        if (k <= 0)throw new IllegalArgumentException("k should > 0");
-        this.bitSetSize = Default_BitSize;
-        this.bitSet = new BitSet(bitSetSize);
-        this.k = k;
-        this.hashFunctions = new HashFunctionMD5<>(k);
-        this.expectedNumberOfFilterElements = bitSetSize / 10;
+        this(DEFAULT_size, k);
     }
 
-    public BF(int bitSetSize,int expectedNumberOfFilterElements,int k) throws NoSuchAlgorithmException {
+    public BF(long bitSetSize,long expectedNumberOfFilterElements,int k) throws NoSuchAlgorithmException {
         this(bitSetSize,k);
         this.expectedNumberOfFilterElements = expectedNumberOfFilterElements;
     }
@@ -130,14 +122,14 @@ public class BF<T> implements BloomFilter<T> {
     }
 
     public int getDefault_BitSize() {
-        return Default_BitSize;
+        return DEFAULT_size;
     }
 
-    public BitSet getBitSet() {
-        return (BitSet) bitSet.clone();
+    public BitArray getBitSet() {
+        return (BitArray) bitSet.clone();
     }
 
-    public int getBitSetSize() {
+    public long getBitSetSize() {
         return bitSetSize;
     }
 
@@ -145,7 +137,7 @@ public class BF<T> implements BloomFilter<T> {
         return k;
     }
 
-    public int getNumAdded() {
+    public long getNumAdded() {
         return numAdded;
     }
 
@@ -162,7 +154,7 @@ public class BF<T> implements BloomFilter<T> {
      * @param numOfElements - 输入数量
      * @return FPR
      */
-    public double getFalsePositiveRate(int numOfElements) {
+    public double getFalsePositiveRate(long numOfElements) {
         return Math.pow(1 - Math.pow(1 - (1.0 / (long)bitSetSize), k * numOfElements), k);
     }
 
@@ -174,7 +166,7 @@ public class BF<T> implements BloomFilter<T> {
         return getFalsePositiveRate(expectedNumberOfFilterElements);
     }
 
-    public int getExpectedNumberOfFilterElements() {
+    public long getExpectedNumberOfFilterElements() {
         return expectedNumberOfFilterElements;
     }
 

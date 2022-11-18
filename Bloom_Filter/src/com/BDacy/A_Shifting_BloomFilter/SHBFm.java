@@ -1,8 +1,12 @@
 package com.BDacy.A_Shifting_BloomFilter;
 
 import com.BDacy.Standard_BloomFilter.BF;
+import com.BDacy.Standard_BloomFilter.BitArray;
+import com.BDacy.Standard_BloomFilter.HashFunctionMD5;
 
 import java.security.NoSuchAlgorithmException;
+
+import static com.BDacy.Standard_BloomFilter.BFDefaultConfig.DEFAULT_size;
 
 /**
  * @BelongsPackage: com.BDacy.A_Shifting_BloomFilter
@@ -17,7 +21,7 @@ public class SHBFm<T> extends BF<T> {
     public SHBFm() throws NoSuchAlgorithmException {
     }
 
-    public SHBFm(int bitSetSize, int k) throws NoSuchAlgorithmException {
+    public SHBFm(long bitSetSize, int k) throws NoSuchAlgorithmException {
         super(bitSetSize, k);
     }
 
@@ -25,7 +29,7 @@ public class SHBFm<T> extends BF<T> {
         super(k);
     }
 
-    public SHBFm(int bitSetSize, int expectedNumberOfFilterElements, int k) throws NoSuchAlgorithmException {
+    public SHBFm(long bitSetSize, long expectedNumberOfFilterElements, int k) throws NoSuchAlgorithmException {
         super(bitSetSize, expectedNumberOfFilterElements, k);
     }
 
@@ -64,7 +68,7 @@ public class SHBFm<T> extends BF<T> {
 
 
     @Override
-    public double getFalsePositiveRate(int numOfElements) {
+    public double getFalsePositiveRate(long numOfElements) {
         double p = Math.pow(Math.E,- 1. * numOfElements * k / bitSetSize);
         return Math.pow(1 - p,k / 2.0) *
                 Math.pow(1 - p + 1. / (w - 1) * p * p, k / 2.);
@@ -76,7 +80,7 @@ public class SHBFm<T> extends BF<T> {
      * @param n of elements of a Bloom Filter
      * @return 推荐的hash函数个数
      */
-    public static int getOptimumValueOfK(int m,int n){
+    public static int getOptimumValueOfK(long m,long n){
         return (int) Math.round(0.7009 * m / n);
     }
 }

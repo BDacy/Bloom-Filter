@@ -3,6 +3,7 @@ package com.BDacy.A_Shifting_BloomFilter;
 import com.BDacy.A_Shifting_BloomFilter.SHBFm;
 import com.BDacy.BFTest;
 import com.BDacy.Standard_BloomFilter.BF;
+import static com.BDacy.Standard_BloomFilter.BFDefaultConfig.*;
 import static org.junit.Assert.*;
 
 import java.security.NoSuchAlgorithmException;
@@ -23,11 +24,11 @@ public class SHBFmTest extends BFTest {
     public void BFDefaultTest() throws NoSuchAlgorithmException {
         System.out.println("SHBFm 的默认配置的测试");
         BF<String> shBFm = new SHBFm<>();
-        assertEquals(5,shBFm.getK());
-        assertEquals(100000,shBFm.getBitSetSize());
-        assertEquals(100000,shBFm.getDefault_BitSize());
+        assertEquals(DEFAULT_hash_number,shBFm.getK());
+        assertEquals(DEFAULT_size,shBFm.getBitSetSize());
+        assertEquals(DEFAULT_size,shBFm.getDefault_BitSize());
         assertEquals(0,shBFm.getNumAdded());
-        assertEquals(10000,shBFm.getExpectedNumberOfFilterElements());
+        assertEquals(DEFAULT_size / 10,shBFm.getExpectedNumberOfFilterElements());
     }
 
     @Override
@@ -35,15 +36,15 @@ public class SHBFmTest extends BFTest {
         System.out.println("SHBFm 有参构造函数测试");
         BF<String> bf = new SHBFm<>(10);
         assertEquals(10,bf.getK());
-        assertEquals(100000,bf.getBitSetSize());
-        assertEquals(100000,bf.getDefault_BitSize());
+        assertEquals(DEFAULT_size,bf.getBitSetSize());
+        assertEquals(DEFAULT_size,bf.getDefault_BitSize());
         assertEquals(0,bf.getNumAdded());
-        assertEquals(10000,bf.getExpectedNumberOfFilterElements());
+        assertEquals(DEFAULT_size / 10,bf.getExpectedNumberOfFilterElements());
 
         bf = new SHBFm<>(2 << 18,7);
         assertEquals(7,bf.getK());
         assertEquals(2 << 18,bf.getBitSetSize());
-        assertEquals(100000,bf.getDefault_BitSize());
+        assertEquals(DEFAULT_size,bf.getDefault_BitSize());
         assertEquals(0,bf.getNumAdded());
         assertEquals((2 << 18) / 10,bf.getExpectedNumberOfFilterElements());
         System.out.println(SHBFm.getOptimumValueOfK(bf.getBitSetSize(),
@@ -52,7 +53,7 @@ public class SHBFmTest extends BFTest {
         bf = new SHBFm<>(500000,55000,8);
         assertEquals(8,bf.getK());
         assertEquals(500000,bf.getBitSetSize());
-        assertEquals(100000,bf.getDefault_BitSize());
+        assertEquals(DEFAULT_size,bf.getDefault_BitSize());
         assertEquals(0,bf.getNumAdded());
         assertEquals(55000,bf.getExpectedNumberOfFilterElements());
         assertEquals(6,SHBFm.getOptimumValueOfK(bf.getBitSetSize(),

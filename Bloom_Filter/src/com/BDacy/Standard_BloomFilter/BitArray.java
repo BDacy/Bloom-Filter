@@ -1,5 +1,8 @@
 package com.BDacy.Standard_BloomFilter;
 
+import java.util.Arrays;
+import java.util.BitSet;
+
 /**
  * @BelongsPackage: com.BDacy.Standard_BloomFilter
  * @Author: yca
@@ -7,12 +10,12 @@ package com.BDacy.Standard_BloomFilter;
  * @Description:
  *          参考Bitset实现一个位向量支持位数较多的场景
  */
-public class BitArray {
+public class BitArray implements Cloneable {
 
     private static final int ADDRESS_BITS_PER_WORD = 6;
     private static final int BITS_PER_WORD = 1 << ADDRESS_BITS_PER_WORD;
 
-    private final long[] words;
+    private long[] words;
 
     private final long bitSize;
 
@@ -20,7 +23,7 @@ public class BitArray {
     private int wordInUse;
 
 
-    BitArray(long bitSize){
+    public BitArray(long bitSize){
         if (bitSize < 0)
             throw new NegativeArraySizeException("bitSize < 0" + bitSize);
         this.bitSize = bitSize;
@@ -29,7 +32,7 @@ public class BitArray {
         this.wordInUse = 0;
     }
 
-    BitArray(){
+    public BitArray(){
         this(BITS_PER_WORD);
     }
 
@@ -76,5 +79,21 @@ public class BitArray {
 
     public long getBitArraySize(){
         return (long) words.length * BITS_PER_WORD;
+    }
+
+    public void clear(){
+        Arrays.fill(words, 0);
+        this.wordInUse = 0;
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            BitArray result = (BitArray) super.clone();
+            result.words = words.clone();
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e);
+        }
     }
 }

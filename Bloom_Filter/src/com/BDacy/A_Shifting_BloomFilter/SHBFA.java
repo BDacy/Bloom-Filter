@@ -1,9 +1,10 @@
 package com.BDacy.A_Shifting_BloomFilter;
 
+import com.BDacy.Standard_BloomFilter.BFDefaultConfig;
+import com.BDacy.Standard_BloomFilter.BitArray;
 import com.BDacy.Standard_BloomFilter.HashFunctionMD5;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,9 +20,9 @@ public class SHBFA<T> {
     private final Set<T> set1;
     private final Set<T> set2;
     // 位图
-    private final BitSet bitSet;
+    private final BitArray bitSet;
     // 位图大小
-    private final int bitSetSize;
+    private final long bitSetSize;
     // hash函数的数量
     private final int k;
     // 提供计算hash函数值的对象
@@ -29,7 +30,7 @@ public class SHBFA<T> {
     // 优化字
     private final int w = 64 - 7;
     // 已添加的总元素数量
-    private int numAdded = 0;
+    private long numAdded = 0;
     /**
      *  有参构造函数
      * @param set1 - 集合1
@@ -38,13 +39,13 @@ public class SHBFA<T> {
      * @param k - hash函数的数量
      * @throws NoSuchAlgorithmException -
      */
-    public SHBFA(Set<T> set1, Set<T> set2, int bitSetSize, int k) throws NoSuchAlgorithmException {
+    public SHBFA(Set<T> set1, Set<T> set2, long bitSetSize, int k) throws NoSuchAlgorithmException {
         this.set1 = set1;
         this.set2 = set2;
         this.bitSetSize = bitSetSize;
         this.k = k;
         //多出来这些bit来放偏移量
-        this.bitSet = new BitSet(this.bitSetSize + w - 2);
+        this.bitSet = new BitArray(this.bitSetSize + w - 2);
         this.hashFunctionMD5 = new HashFunctionMD5<>(k);
         construct();
     }
@@ -55,8 +56,8 @@ public class SHBFA<T> {
      */
     public SHBFA() throws NoSuchAlgorithmException {
         this(new HashSet<>(),new HashSet<>(),
-                SHBFDefaultConfig.DEFAULT_size,
-                SHBFDefaultConfig.DEFAULT_hash_number);
+                BFDefaultConfig.DEFAULT_size,
+                BFDefaultConfig.DEFAULT_hash_number);
     }
 
     /**
@@ -168,7 +169,7 @@ public class SHBFA<T> {
         return new HashSet<>(set2);
     }
 
-    public int getBitSetSize() {
+    public long getBitSetSize() {
         return bitSetSize;
     }
 
@@ -176,7 +177,7 @@ public class SHBFA<T> {
         return k;
     }
 
-    public int getNumAdded() {
+    public long getNumAdded() {
         return numAdded;
     }
 }

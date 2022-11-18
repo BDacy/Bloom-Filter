@@ -1,8 +1,6 @@
 package com.BDacy.A_Shifting_BloomFilter;
 
-import com.BDacy.A_Shifting_BloomFilter.ElementBelong;
-import com.BDacy.A_Shifting_BloomFilter.SHBFA;
-import com.BDacy.A_Shifting_BloomFilter.SHBFDefaultConfig;
+import com.BDacy.Standard_BloomFilter.BFDefaultConfig;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -28,8 +26,8 @@ public class SHBFATest {
         assertEquals(0,bf.getSet1().size());
         assertEquals(0,bf.getSet2().size());
         assertEquals(0,bf.getNumAdded());
-        assertEquals(SHBFDefaultConfig.DEFAULT_hash_number,bf.getK());
-        assertEquals(SHBFDefaultConfig.DEFAULT_size,bf.getBitSetSize());
+        assertEquals(BFDefaultConfig.DEFAULT_hash_number,bf.getK());
+        assertEquals(BFDefaultConfig.DEFAULT_size,bf.getBitSetSize());
     }
 
     @Test

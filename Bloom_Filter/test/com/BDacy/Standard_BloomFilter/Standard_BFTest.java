@@ -3,6 +3,7 @@ package com.BDacy.Standard_BloomFilter;
 import com.BDacy.Standard_BloomFilter.BF;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static com.BDacy.Standard_BloomFilter.BFDefaultConfig.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,9 @@ public class Standard_BFTest {
     public void BFDeFaultTest() throws Exception {
         System.out.println("BF 的默认配置的测试");
         BF<String> bf = new BF<>();
-        assertEquals(5,bf.getK());
-        assertEquals(100000,bf.getBitSetSize());
-        assertEquals(100000,bf.getDefault_BitSize());
+        assertEquals(DEFAULT_hash_number,bf.getK());
+        assertEquals(DEFAULT_size,bf.getBitSetSize());
+        assertEquals(DEFAULT_size,bf.getDefault_BitSize());
         assertEquals(0,bf.getNumAdded());
     }
 

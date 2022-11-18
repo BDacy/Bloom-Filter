@@ -1,6 +1,5 @@
 package com.BDacy.A_Shifting_BloomFilter;
 
-import com.BDacy.A_Shifting_BloomFilter.SHBFX;
 import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +9,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
-import static com.BDacy.A_Shifting_BloomFilter.SHBFDefaultConfig.*;
+import static com.BDacy.Standard_BloomFilter.BFDefaultConfig.*;
 
 /**
  * @BelongsPackage: com.BDacy
