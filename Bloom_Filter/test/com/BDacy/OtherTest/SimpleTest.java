@@ -1,4 +1,4 @@
-package com.BDacy;
+package com.BDacy.OtherTest;
 
 import org.junit.Test;
 

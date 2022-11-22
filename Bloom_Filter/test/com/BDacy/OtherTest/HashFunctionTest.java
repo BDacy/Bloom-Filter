@@ -1,4 +1,4 @@
-package com.BDacy;
+package com.BDacy.OtherTest;
 
 import com.BDacy.Standard_BloomFilter.HashFunctionMD5;
 import static org.junit.Assert.*;
@@ -141,6 +141,30 @@ public class HashFunctionTest {
         System.out.println(Arrays.toString(hashes6));
     }
 
+    @Test
+    public void MD5HashFunctionLongTest() throws Exception{
+        HashFunctionMD5<String> hashFunctionMD5 = new HashFunctionMD5<>();
+        assert hashFunctionMD5.getK() == 5;
+        String input1 = "lzh 是大傻逼";
+        String input2 = "yca 是大帅哥";
+        long[] hashes1 = hashFunctionMD5.createLongHashes(input1, 5);
+        long[] hashes2 = hashFunctionMD5.createLongHashes(input2, 5);
+        long[] hashes3 = hashFunctionMD5.createLongHashes(input2, 5);
+        assertArrayEquals(hashes2,hashes3);
+        assertEquals(hashes2.length,5);
+        assertEquals(hashes3.length,5);
+        System.out.println(Arrays.toString(hashes1));
+        System.out.println(Arrays.toString(hashes2));
+
+        HashFunctionMD5<String> hashFunctionMD51 = new HashFunctionMD5<>(7);
+        assertEquals(7,hashFunctionMD51.getK());
+        long[] hashes4 = hashFunctionMD51.createLongHashes(input1);
+        assertEquals(7,hashes4.length);
+        for (int i = 0; i < 5; i++) {
+            assertEquals(hashes1[i],hashes4[i]);
+        }
+        System.out.println(Arrays.toString(hashes4));
+    }
     public class Student{
         private String name;
         private int ages;
