@@ -89,6 +89,20 @@ public class SHBFX<T> {
     }
 
     /**
+     * 添加数据，会将原有的数据次数覆盖
+     * @param data - 数据
+     * @param cnt - 数据的次数
+     */
+    public void add(T data, int cnt){
+        if (cnt <= 0 || cnt > c)throw new IllegalArgumentException("num is Illegal " + cnt);
+        int[] hashes = hashFunctionMD5.createHashes(data);
+        for (int hash : hashes) {
+            bitSet.set(Math.abs(hash % bitSetSize) + cnt - 1);
+        }
+        numAdded++;
+    }
+
+    /**
      * 查询输入数据在BF中出现的次数
      * @param data - 输入数据
      * @return 返回该元素出现的可能最大次数，实际次数小于等于输出 结果应该大于等于0，小于等于c

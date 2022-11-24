@@ -101,7 +101,20 @@ public class SHBFXTest {
 
     @Test
     public void SHBFQueryBDTest()throws Exception{
-
+        System.out.println("SHBFX add方法的初测试");
+        Map<String,Integer> map = new HashMap<>();
+        SHBFX<String> bf = new SHBFX<>(
+                2<<18,5,8,2<<12,map
+        );
+        for (int i = 0; i < 70; i++) {
+            bf.add(String.valueOf(i), i / 10 + 1);
+        }
+        for (int i = 0; i < 70; i++) {
+            assertTrue(bf.query(String.valueOf(i)) >= i / 10 + 1);
+        }
+        for (int i = 70; i < 140; i++) {
+            assertEquals(0, bf.query(String.valueOf(i)));
+        }
     }
 
     @Test
@@ -120,6 +133,11 @@ public class SHBFXTest {
         for (int i = 0; i < bf.getC(); i++) {
             System.out.println(bf.getBelongEleCR(i));
         }
+
+    }
+
+    @Test
+    public void SHBFAddMethodTest() throws Exception{
 
     }
 }
