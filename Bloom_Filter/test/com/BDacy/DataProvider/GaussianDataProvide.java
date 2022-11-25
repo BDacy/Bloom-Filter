@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
+import static com.BDacy.MockAndComPareTest.*;
 /**
  * @BelongsPackage: com.BDacy.DataProvider
  * @Author: yca
@@ -23,7 +24,7 @@ public class GaussianDataProvide {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("Bloom_Filter/test/Data/Gaussian_Data.csv"));
              CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)
         ){
-            for (int i = 0; i < 1e8; i++) {
+            for (int i = 0; i < toAddData_num; i++) {
                 double v = (2 << 9) * random.nextGaussian() + 2022;
                 csvPrinter.printRecord(v);
             }
@@ -36,7 +37,7 @@ public class GaussianDataProvide {
         start = System.currentTimeMillis();
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("Bloom_Filter/test/Data/Gaussian_Query_Data.csv"));
              CSVPrinter csvPrinter = new CSVPrinter(writer,CSVFormat.DEFAULT)){
-            for (int i = 0; i < 1e6; i++) {
+            for (int i = 0; i < queryData_num; i++) {
                 double v = (2 << 7) * random.nextGaussian() + 12022;
                 csvPrinter.printRecord(v);
             }

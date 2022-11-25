@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
+import static com.BDacy.MockAndComPareTest.*;
+
 /**
  * @BelongsPackage: com.BDacy.DataProvider
  * @Author: yca
@@ -23,7 +25,7 @@ public class UniformDataProvide {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("Bloom_Filter/test/Data/Uniform_Data.csv"));
              CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)
         ){
-            for (int i = 0; i < 1e8; i++) {
+            for (int i = 0; i < toAddData_num; i++) {
                 int num = random.nextInt((int) (1e8+2022));
                 csvPrinter.printRecord(num);
             }
@@ -36,7 +38,7 @@ public class UniformDataProvide {
         start = System.currentTimeMillis();
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("Bloom_Filter/test/Data/Uniform_Query_Data.csv"));
              CSVPrinter csvPrinter = new CSVPrinter(writer,CSVFormat.DEFAULT)){
-            for (int i = 0; i < 1e6; i++) {
+            for (int i = 0; i < queryData_num; i++) {
                 int num = -random.nextInt((int) (1e6+2022));
                 csvPrinter.printRecord(num);
             }

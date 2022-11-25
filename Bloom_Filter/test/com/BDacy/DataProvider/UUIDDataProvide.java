@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
+import static com.BDacy.MockAndComPareTest.*;
 
 /**
  * @BelongsPackage: com.BDacy.DataProvider
@@ -25,7 +26,7 @@ public class UUIDDataProvide {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("Bloom_Filter/test/Data/UUID_Data.csv"));
              CSVPrinter csvPrinter = new CSVPrinter(writer,CSVFormat.DEFAULT)
         ){
-            for (int i = 0; i < 1e8; i++) {
+            for (int i = 0; i < toAddData_num/10; i++) {
                 csvPrinter.printRecord(UUID.randomUUID().toString());
             }
         } catch (IOException e) {
@@ -37,7 +38,7 @@ public class UUIDDataProvide {
         start = System.currentTimeMillis();
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("Bloom_Filter/test/Data/UUID_Query_Data.csv"));
              CSVPrinter csvPrinter = new CSVPrinter(writer,CSVFormat.DEFAULT)){
-            for (int i = 0; i < 1e6; i++) {
+            for (int i = 0; i < queryData_num; i++) {
                 csvPrinter.printRecord(UUID.randomUUID().toString());
             }
         } catch (IOException e) {
