@@ -65,7 +65,7 @@ public class BF<T> implements BloomFilter<T> {
     }
     @Override
     public boolean add(T data) {
-        int[] hashes = hashFunctions.createHashes(data);
+        long[] hashes = hashFunctions.createLongHashes(data);
         if (hashes.length != k){
             return false;
         }
@@ -87,7 +87,7 @@ public class BF<T> implements BloomFilter<T> {
 
     @Override
     public boolean contains(T data) {
-        int[] hashes = hashFunctions.createHashes(data);
+        long[] hashes = hashFunctions.createLongHashes(data);
         for (int i = 0; i < hashes.length; i++) {
             if (!bitSet.get(Math.abs(hashes[i] % bitSetSize)))return false;
         }

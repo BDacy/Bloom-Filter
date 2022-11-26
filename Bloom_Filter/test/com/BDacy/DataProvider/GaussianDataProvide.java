@@ -24,7 +24,7 @@ public class GaussianDataProvide {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("Bloom_Filter/test/Data/Gaussian_Data.csv"));
              CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)
         ){
-            for (int i = 0; i < toAddData_num; i++) {
+            for (int i = 0; i < toAddData_num/10; i++) {
                 double v = (2 << 9) * random.nextGaussian() + 2022;
                 csvPrinter.printRecord(v);
             }

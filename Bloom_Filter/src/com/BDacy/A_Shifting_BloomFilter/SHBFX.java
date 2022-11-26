@@ -80,8 +80,8 @@ public class SHBFX<T> {
         for (T ele : map.keySet()) {
             int cnt = map.get(ele);
             if (cnt <= 0)continue;
-            int[] hashes = hashFunctionMD5.createHashes(ele);
-            for (int hash : hashes) {
+            long[] hashes = hashFunctionMD5.createLongHashes(ele);
+            for (long hash : hashes) {
                 bitSet.set(Math.abs(hash % bitSetSize) + cnt - 1);
             }
             numAdded++;
@@ -95,8 +95,8 @@ public class SHBFX<T> {
      */
     public void add(T data, int cnt){
         if (cnt <= 0 || cnt > c)throw new IllegalArgumentException("num is Illegal " + cnt);
-        int[] hashes = hashFunctionMD5.createHashes(data);
-        for (int hash : hashes) {
+        long[] hashes = hashFunctionMD5.createLongHashes(data);
+        for (long hash : hashes) {
             bitSet.set(Math.abs(hash % bitSetSize) + cnt - 1);
         }
         numAdded++;
@@ -108,11 +108,11 @@ public class SHBFX<T> {
      * @return 返回该元素出现的可能最大次数，实际次数小于等于输出 结果应该大于等于0，小于等于c
      */
     public int query(T data){
-        int[] hashes = hashFunctionMD5.createHashes(data);
+        long[] hashes = hashFunctionMD5.createLongHashes(data);
         int max_ans = 0;
         for (int i = 0; i < c; i++) {
             boolean flag = true;
-            for (int hash : hashes) {
+            for (long hash : hashes) {
                 if (!bitSet.get(Math.abs(hash % bitSetSize) + i)){
                     flag = false;
                     break;

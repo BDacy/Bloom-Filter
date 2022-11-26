@@ -114,10 +114,10 @@ public class HashFunctionMD5<T> implements HashFunction {
             byte[] digest = MD.digest(data);
             //对数组进行操作
             //四个byte进行一次整合，计算一次hash函数作为一次hash输出
-            for (int i = 0; i < digest.length/4 && timeCnt < k; i++) {
+            for (int i = 0; i < digest.length/8 && timeCnt < k; i++) {
                 long h = 0;
-                for (int j = (i*4); j < (i*4)+4; j++) {
-                    h <<= 10;
+                for (int j = (i*8); j < (i*8)+8; j++) {
+                    h <<= 8;
                     h |= ((long) digest[j]) & 0xFF;
                 }
                 result[timeCnt] = h;

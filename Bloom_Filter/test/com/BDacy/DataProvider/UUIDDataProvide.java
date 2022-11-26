@@ -26,7 +26,7 @@ public class UUIDDataProvide {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("Bloom_Filter/test/Data/UUID_Data.csv"));
              CSVPrinter csvPrinter = new CSVPrinter(writer,CSVFormat.DEFAULT)
         ){
-            for (int i = 0; i < toAddData_num/10; i++) {
+            for (int i = 0; i < toAddData_num; i++) {
                 csvPrinter.printRecord(UUID.randomUUID().toString());
             }
         } catch (IOException e) {
@@ -39,7 +39,7 @@ public class UUIDDataProvide {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("Bloom_Filter/test/Data/UUID_Query_Data.csv"));
              CSVPrinter csvPrinter = new CSVPrinter(writer,CSVFormat.DEFAULT)){
             for (int i = 0; i < queryData_num; i++) {
-                csvPrinter.printRecord(UUID.randomUUID().toString());
+                csvPrinter.printRecord(UUID.randomUUID().toString() + '-');
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -30,8 +30,8 @@ public class MockAndComPareTest {
     public static final long bitSize = toAddData_num * 10L;
 
     /*
-    UUID toAddData的数据大小为1e8
-    gaussian toAddData的数据大小为1e9
+    UUID toAddData的数据大小为1e9
+    gaussian toAddData的数据大小为1e8
     Uniform toAddData的数据大小为1e9
     请在测试前确定好比率ratio
      */
@@ -74,7 +74,7 @@ public class MockAndComPareTest {
     public void SHBFmGaussianDataTest() throws Exception{
         BF<String> bf = new SHBFm<>(bitSize/10,7);
         BFTest(bf,"test/Data/Gaussian_Data.csv", "test/Data/Gaussian_Query_Data.csv",
-                0.1,1);
+                1,1);
     }
 
     @Test
@@ -140,13 +140,13 @@ public class MockAndComPareTest {
     @Test
     public void SHBFAGaussianDataTest() throws Exception{
         sHBFATest("test/Data/Gaussian_Data.csv","test/Data/Gaussian_Query_Data.csv",
-                0.1,1);
+                0.02,1);
     }
 
     @Test
     public void SHBFAUniformTest() throws Exception{
         sHBFATest("test/Data/Uniform_Data.csv","test/Data/Uniform_Query_Data.csv",
-                0.1,1.);
+                0.02,1.);
     }
 
     public int checkBelong(ElementBelong eb){
