@@ -40,7 +40,7 @@ public class SHBFm<T> extends BF<T> {
         if (hashes.length != k/2+1)return false;
         for (int i = 0; i < hashes.length - 1; i++) {
             bitSet.set(Math.abs(hashes[i] % bitSetSize));
-            bitSet.set(Math.abs(hashes[i + 1] % bitSetSize) + shifting_o(hashes[i]));
+            bitSet.set(Math.abs(hashes[i] % bitSetSize) + shifting_o(hashes[k/2]));
         }
         numAdded++;
         return true;
@@ -51,7 +51,7 @@ public class SHBFm<T> extends BF<T> {
         long[] hashes = hashFunctions.createLongHashes(data,k/2+1);
         for (int i = 0; i < hashes.length - 1; i++) {
             boolean b0 = bitSet.get(Math.abs(hashes[i] % bitSetSize));
-            boolean b1 = bitSet.get(Math.abs(hashes[i + 1] % bitSetSize) + shifting_o(hashes[i]));
+            boolean b1 = bitSet.get(Math.abs(hashes[i] % bitSetSize) + shifting_o(hashes[k/2]));
             if (!b0 ||!b1)return false;
         }
         return true;
