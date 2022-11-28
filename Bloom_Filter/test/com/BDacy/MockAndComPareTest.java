@@ -134,7 +134,7 @@ public class MockAndComPareTest {
     @Test
     public void SHBFAUUIDTest() throws Exception{
         sHBFATest("test/Data/UUID_Data.csv","test/Data/UUID_Query_Data.csv",
-                0.01,1);
+                0.02,1);
     }
 
     @Test
@@ -283,14 +283,14 @@ public class MockAndComPareTest {
     public void SBFUUIDTest() throws Exception{
         String dataPath = "test/Data/UUID_Data.csv";
         String queryDataPath = "test/Data/UUID_Query_Data.csv";
-        SBFTest(dataPath, queryDataPath,1,0.1);
+        SBFTest(dataPath, queryDataPath,1,1);
     }
 
     @Test
     public void SBFGaussianDataTest() throws Exception{
         String dataPath = "test/Data/Gaussian_Data.csv";
         String queryDataPath = "test/Data/Gaussian_Query_Data.csv";
-        SBFTest(dataPath, queryDataPath,1,0.1);
+        SBFTest(dataPath, queryDataPath,1,1);
     }
 
     @Test
@@ -341,7 +341,7 @@ public class MockAndComPareTest {
         System.out.println("查询数量：" + queryData_num * query_ratio + "\t误判数："+ cnt);
         System.out.println("预测误判率：" + sbf.getSBFFalsePositiveRate());
         System.out.println("实际误判率:" + 1. * cnt / queryData_num * query_ratio);
-//        sbf.printFilter();
+        sbf.printFilter();
     }
 
 }
