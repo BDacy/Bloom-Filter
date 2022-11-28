@@ -283,27 +283,27 @@ public class MockAndComPareTest {
     public void SBFUUIDTest() throws Exception{
         String dataPath = "test/Data/UUID_Data.csv";
         String queryDataPath = "test/Data/UUID_Query_Data.csv";
-        SBFTest(dataPath, queryDataPath,1,1);
+        SBFTest(dataPath, queryDataPath,0.1,1);
     }
 
     @Test
     public void SBFGaussianDataTest() throws Exception{
         String dataPath = "test/Data/Gaussian_Data.csv";
         String queryDataPath = "test/Data/Gaussian_Query_Data.csv";
-        SBFTest(dataPath, queryDataPath,1,1);
+        SBFTest(dataPath, queryDataPath,0.1,1);
     }
 
     @Test
     public void SBFUniformTest() throws Exception{
         String dataPath = "test/Data/Uniform_Data.csv";
         String queryDataPath = "test/Data/Uniform_Query_Data.csv";
-        SBFTest(dataPath, queryDataPath,1,1);
+        SBFTest(dataPath, queryDataPath,0.1,1);
     }
 
     private void SBFTest(String dataPath, String queryDataPath,
                          double data_ratio, double query_ratio) throws Exception{
         long start = System.currentTimeMillis();
-        SBF<String> sbf = new SBF<>(3,(int) bitSize,7);
+        SBF<String> sbf = new SBF<>(3,(int) (bitSize/10),7);
         try (Reader reader = Files.newBufferedReader(Paths.get(dataPath))) {
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(reader);
             double size = toAddData_num * data_ratio;
