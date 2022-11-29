@@ -213,19 +213,19 @@ public class MockAndComPareTest {
     @Test
     public void SHBFXUUIDTest() throws Exception{
         SHBFXTest("test/Data/UUID_Data.csv","test/Data/UUID_Data.csv",
-                1,1);
+                0.01,100);
     }
 
     @Test
     public void SHBFXGaussianDataTest() throws Exception{
        SHBFXTest("test/Data/Gaussian_Data.csv","test/Data/Gaussian_Data.csv",
-               1,1);
+               0.01,100);
     }
 
     @Test
     public void SHBFXUniformTest() throws Exception{
         SHBFXTest("test/Data/Uniform_Data.csv","test/Data/Uniform_Data.csv",
-                1,1);
+                0.01,100);
     }
 
     /**
@@ -283,27 +283,27 @@ public class MockAndComPareTest {
     public void SBFUUIDTest() throws Exception{
         String dataPath = "test/Data/UUID_Data.csv";
         String queryDataPath = "test/Data/UUID_Query_Data.csv";
-        SBFTest(dataPath, queryDataPath,1,0.1);
+        SBFTest(dataPath, queryDataPath,0.1,1);
     }
 
     @Test
     public void SBFGaussianDataTest() throws Exception{
         String dataPath = "test/Data/Gaussian_Data.csv";
         String queryDataPath = "test/Data/Gaussian_Query_Data.csv";
-        SBFTest(dataPath, queryDataPath,1,0.1);
+        SBFTest(dataPath, queryDataPath,0.1,1);
     }
 
     @Test
     public void SBFUniformTest() throws Exception{
         String dataPath = "test/Data/Uniform_Data.csv";
         String queryDataPath = "test/Data/Uniform_Query_Data.csv";
-        SBFTest(dataPath, queryDataPath,1,1);
+        SBFTest(dataPath, queryDataPath,0.1,1);
     }
 
     private void SBFTest(String dataPath, String queryDataPath,
                          double data_ratio, double query_ratio) throws Exception{
         long start = System.currentTimeMillis();
-        SBF<String> sbf = new SBF<>(3,(int) bitSize,7);
+        SBF<String> sbf = new SBF<>(3,(int) (toAddData_num * data_ratio * 10),7);
         try (Reader reader = Files.newBufferedReader(Paths.get(dataPath))) {
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(reader);
             double size = toAddData_num * data_ratio;
@@ -341,7 +341,7 @@ public class MockAndComPareTest {
         System.out.println("查询数量：" + queryData_num * query_ratio + "\t误判数："+ cnt);
         System.out.println("预测误判率：" + sbf.getSBFFalsePositiveRate());
         System.out.println("实际误判率:" + 1. * cnt / queryData_num * query_ratio);
-//        sbf.printFilter();
+        sbf.printFilter();
     }
 
 }

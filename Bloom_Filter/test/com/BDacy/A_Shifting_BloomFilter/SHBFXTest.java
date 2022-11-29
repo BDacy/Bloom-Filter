@@ -100,7 +100,7 @@ public class SHBFXTest {
     }
 
     @Test
-    public void SHBFQueryBDTest()throws Exception{
+    public void SHBFQueryAddTest()throws Exception{
         System.out.println("SHBFX add方法的初测试");
         Map<String,Integer> map = new HashMap<>();
         SHBFX<String> bf = new SHBFX<>(

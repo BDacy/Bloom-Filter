@@ -36,11 +36,20 @@ public class SHBFm<T> extends BF<T> {
     @Override
     public boolean add(T data) {
 //        int[] hashes = hashFunctions.createHashes(data,k==1?1:k/2);
-        long[] hashes = hashFunctions.createLongHashes(data,k/2+1);
-        if (hashes.length != k/2+1)return false;
-        for (int i = 0; i < hashes.length - 1; i++) {
-            bitSet.set(Math.abs(hashes[i] % bitSetSize));
-            bitSet.set(Math.abs(hashes[i + 1] % bitSetSize) + shifting_o(hashes[i]));
+        if (k <= 3){
+            long[] hashes = hashFunctions.createLongHashes(data,k/2+1);
+            if (hashes.length != k/2+1)return false;
+            for (int i = 0; i < hashes.length - 1; i++) {
+                bitSet.set(Math.abs(hashes[i] % bitSetSize));
+                bitSet.set(Math.abs(hashes[i] % bitSetSize) + shifting_o(hashes[(i + 1)]));
+            }
+        }else {
+            long[] hashes = hashFunctions.createLongHashes(data,k/2);
+            if (hashes.length != k/2)return false;
+            for (int i = 0; i < hashes.length; i++) {
+                bitSet.set(Math.abs(hashes[i] % bitSetSize));
+                bitSet.set(Math.abs(hashes[i] % bitSetSize) + shifting_o(hashes[(i + 1) % hashes.length]));
+            }
         }
         numAdded++;
         return true;
@@ -48,11 +57,20 @@ public class SHBFm<T> extends BF<T> {
 
     @Override
     public boolean contains(T data) {
-        long[] hashes = hashFunctions.createLongHashes(data,k/2+1);
-        for (int i = 0; i < hashes.length - 1; i++) {
-            boolean b0 = bitSet.get(Math.abs(hashes[i] % bitSetSize));
-            boolean b1 = bitSet.get(Math.abs(hashes[i + 1] % bitSetSize) + shifting_o(hashes[i]));
-            if (!b0 ||!b1)return false;
+        if (k <= 3){
+            long[] hashes = hashFunctions.createLongHashes(data,k/2+1);
+            for (int i = 0; i < hashes.length - 1; i++) {
+                boolean b0 = bitSet.get(Math.abs(hashes[i] % bitSetSize));
+                boolean b1 = bitSet.get(Math.abs(hashes[i] % bitSetSize) + shifting_o(hashes[i + 1]));
+                if (!b0 ||!b1)return false;
+            }
+        }else {
+            long[] hashes = hashFunctions.createLongHashes(data,k/2);
+            for (int i = 0; i < hashes.length; i++) {
+                boolean b0 = bitSet.get(Math.abs(hashes[i] % bitSetSize));
+                boolean b1 = bitSet.get(Math.abs(hashes[i] % bitSetSize) + shifting_o(hashes[(i + 1) % hashes.length]));
+                if (!b0 ||!b1)return false;
+            }
         }
         return true;
     }

@@ -4,7 +4,9 @@ import com.BDacy.Standard_BloomFilter.BitArray;
 import com.BDacy.Standard_BloomFilter.HashFunctionMD5;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import static com.BDacy.Standard_BloomFilter.BFDefaultConfig.*;
@@ -107,21 +109,91 @@ public class SHBFX<T> {
      * @param data - 输入数据
      * @return 返回该元素出现的可能最大次数，实际次数小于等于输出 结果应该大于等于0，小于等于c
      */
+//    public int query(T data){
+//        long[] hashes = hashFunctionMD5.createLongHashes(data);
+//        int max_ans = 0;
+//        for (int i = 0; i < c; i++) {
+//            boolean flag = true;
+//            for (long hash : hashes) {
+//                if (!bitSet.get(Math.abs(hash % bitSetSize) + i)){
+//                    flag = false;
+//                    break;
+//                }
+//            }
+//            if (flag)max_ans = i + 1;
+//        }
+//        return max_ans;
+//    }
+
+    /**
+     * v0.1
+     */
     public int query(T data){
         long[] hashes = hashFunctionMD5.createLongHashes(data);
         int max_ans = 0;
         for (int i = 0; i < c; i++) {
             boolean flag = true;
-            for (long hash : hashes) {
-                if (!bitSet.get(Math.abs(hash % bitSetSize) + i)){
+            for (int j = hashes.length - 1; j >= 0; j--) {
+                if (!bitSet.get(Math.abs(hashes[j] % bitSetSize) + i)){
                     flag = false;
                     break;
                 }
             }
-            if (flag)max_ans = i + 1;
+            if (flag)return i + 1;
         }
         return max_ans;
     }
+    /**
+     * v1.1
+     */
+//    public int query(T data){
+//        long[] hashes = hashFunctionMD5.createLongHashes(data);
+//        int max_ans = 0;
+//        // 二维数组存储
+//        boolean[][] v = new boolean[c][k];
+//        for (int i = 0; i < k; i++) {
+//            for (int j = 0; j < c; j++) {
+//                v[j][i] = bitSet.get(Math.abs(hashes[i] % bitSetSize) + j);
+//            }
+//        }
+//        // 从大到小检查;
+//        for (int i = c - 1; i >= 0; i--) {
+//            boolean flag = true;
+//            for (int j = 0; j < k; j++) {
+//                if (!v[i][j]){
+//                    flag = false;
+//                    break;
+//                }
+//            }
+//            if (flag) return i + 1;
+//        }
+//        return max_ans;
+//    }
+    /**
+     * v1.0
+     */
+//    public int query(T data){
+//        long[] hashes = hashFunctionMD5.createLongHashes(data);
+//        int max_ans = 0;
+//        // 先去hashes[0] 的前c个
+//        boolean[] v = new boolean[c];
+//        for (int i = 0; i < c; i++) {
+//            v[i] = bitSet.get(Math.abs(hashes[0] % bitSetSize) + i);
+//        }
+//        //从大到小找，找到全为1的就马上返回
+//        for (int i = c - 1; i >= 0; i--) {
+//            if (!v[i])continue;
+//            boolean flag = true;
+//            for (int j = 1; j < hashes.length; j++) {
+//                if (!bitSet.get(Math.abs(hashes[j] % bitSetSize) + i)){
+//                    flag = false;
+//                    break;
+//                }
+//            }
+//            if (flag)return i + 1;
+//        }
+//        return max_ans;
+//    }
 
 
     /**

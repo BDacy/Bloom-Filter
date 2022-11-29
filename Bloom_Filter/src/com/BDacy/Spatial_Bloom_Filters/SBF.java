@@ -34,6 +34,7 @@ public class SBF<T> {
     // 位图中属于某个集合的区域数量
     private final int[] area_cells;
 
+    private final int w = 64 - 7;
 
     /**
      * 默认设置
@@ -63,7 +64,7 @@ public class SBF<T> {
         this.area_self_collisions = new int[area_nums + 1];
         //area_cells[0] is not used
         this.area_cells = new int[area_nums + 1];
-        this.Byte_set = new byte[size];
+        this.Byte_set = new byte[size + w];
         this.hashFunctionMD5 = new HashFunctionMD5<>(hash_number);
     }
 
@@ -73,7 +74,7 @@ public class SBF<T> {
      * @param area - 集合的编号
      */
     private void setCell(int index,int area){
-        if (index < 0 || index >= size) throw new IllegalArgumentException("index is Illegal");
+        if (index < 0 || index >= size + w) throw new IllegalArgumentException("index is Illegal");
         if (area <= 0 || area > area_nums)throw new IllegalArgumentException("area is Illegal");
         int cell_val = getCell(index);
         //collisions handing
@@ -101,7 +102,7 @@ public class SBF<T> {
      * @return int - should belonging to area label(1 to area_nums) or zero
      */
     private int getCell(int index){
-        if (index < 0 || index >= size) throw new IllegalArgumentException("index is Illegal");
+        if (index < 0 || index >= size + w) throw new IllegalArgumentException("index is Illegal");
         return Byte_set[index];
     }
 
@@ -114,11 +115,13 @@ public class SBF<T> {
         // 判断输入的合法性
         if (area <= 0 || area > area_nums)throw new IllegalArgumentException("area");
         // 对数据进行hash处理
-        int[] hashes = hashFunctionMD5.createHashes(data);
+        int[] hashes = hashFunctionMD5.createHashes(data,hash_number/2 + 1);
         // 插入数据
-        for (int i = 0; i < hashes.length; i++) {
+        for (int i = 0; i < hashes.length - 1; i++) {
             int index = Math.abs(hashes[i] % size);
-            setCell(index,area);
+            setCell(index, area);
+            index = Math.abs(hashes[i] % size) + shifting_o(hashes[(i + 1)]);
+            setCell(index, area);
         }
         // 改变受影响的成员变量
         this.members++;
@@ -133,10 +136,13 @@ public class SBF<T> {
     public int check(T data){
         int res_area = area_nums + 1;
         // 对输入数据进行hash处理
-        int[] hashes = hashFunctionMD5.createHashes(data);
+        int[] hashes = hashFunctionMD5.createHashes(data, hash_number/2 + 1);
         // 条件判断
-        for (int i = 0; i < hashes.length; i++) {
+        for (int i = 0; i < hashes.length - 1; i++) {
             int cell = getCell(Math.abs(hashes[i] % size));
+            if (cell == 0) return 0;
+            if (cell < res_area)res_area = cell;
+            cell = getCell(Math.abs(hashes[i] % size) + shifting_o(hashes[i + 1]));
             if (cell == 0) return 0;
             if (cell < res_area)res_area = cell;
         }
@@ -155,6 +161,16 @@ public class SBF<T> {
         int check_res = this.check(data);
         // 条件判断
         return check_res == area_toCheck;
+    }
+
+
+    /**
+     * SHBFm 的位移函数，给定经过hash的数值得到偏移量
+     * @param hashedNum - hash值
+     * @return - int 偏移量
+     */
+    public int shifting_o(int hashedNum){
+        return Math.abs(hashedNum) % (w - 1) + 1;
     }
 
     /**
