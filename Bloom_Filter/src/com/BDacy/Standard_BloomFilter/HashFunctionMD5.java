@@ -113,7 +113,7 @@ public class HashFunctionMD5<T> implements HashFunction {
             //生成MD5hash加密后的byte数组
             byte[] digest = MD.digest(data);
             //对数组进行操作
-            //四个byte进行一次整合，计算一次hash函数作为一次hash输出
+            //八个byte进行一次整合，计算一次hash函数作为一次hash输出
             for (int i = 0; i < digest.length/8 && timeCnt < k; i++) {
                 long h = 0;
                 for (int j = (i*8); j < (i*8)+8; j++) {
